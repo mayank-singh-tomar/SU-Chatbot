@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - User Status</title>
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #9410c9; /* Light grey background */
+            color: #333; /* Neutral text color */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Container */
+        .container {
+            max-width: 600px;
+            width: 100%;
+            background: #fff; /* White card-like background */
+            padding: 20px 30px;
+            border-radius: 12px; /* Smooth rounded corners */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+        }
+
+        /* Header */
+        h1 {
+            text-align: center;
+            color: #444; /* Darker neutral color */
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+
+        h2 {
+            color: #666; /* Medium grey */
+            font-size: 22px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        /* Form */
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        input {
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc; /* Light grey border */
+            border-radius: 8px;
+        }
+
+        button {
+            padding: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #fff;
+            background-color: #007bff; /* Vibrant blue */
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+
+        /* Graph Section */
+        img {
+            display: block;
+            max-width: 100%;
+            margin: 20px auto 0;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Subtle image shadow */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>User Status</h1>
+        
+        <!-- Form to submit email (mail_id) -->
+        <form action="/user_status_graph" method="POST">
+            <label for="mail_id">Enter your Email (User ID):</label>
+            <input type="email" id="mail_id" name="mail_id" placeholder="Enter your email" required>
+            <button type="submit">Submit</button>
+        </form>
+
+        <!-- Display graph if user_id exists -->
+        {% if user_id %}
+            <h2>Graph of Questions Asked by Cluster for User: {{ user_id }}</h2>
+            <img src="{{ url_for('user_status_graph') }}" alt="User Status Graph">
+        {% endif %}
+    </div>
+</body>
+</html>

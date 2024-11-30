@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        /* General Reset */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            background-image: url('static/human_ai.png');
+
+        }
+
+           
+        /* Chat Container */
+.chat-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 50px auto;
+    background: rgba(248, 244, 244, 0.966); /* Semi-transparent white background */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    /* overflow: hidden;
+    backdrop-filter: blur(10px); /* Apply the blur effect */
+    /* -webkit-backdrop-filter: blur(10px); Safari support */ */
+}
+
+        /* Chat Header */
+        .chat-header {
+            background: #c2c2ff;
+            color: black;
+            padding: 20px;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        /* Chat Box */
+        .chat-box {
+            padding: 20px;
+            height: 900px;
+            overflow-y: auto;
+            border-top: 1px solid #e0e0e0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        /* User Message */
+        .user-message {
+            text-align: right;
+            margin-bottom: 20px;
+        }
+
+        .user-message .message {
+            background: #e1f5fe;
+            color: #333;
+            padding: 10px 15px;
+            border-radius: 20px;
+            display: inline-block;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+
+        /* Bot Response */
+        .bot-response {
+            margin-bottom: 20px;
+        }
+
+        .response {
+            background: #007bff;
+            color: #fff;
+            padding: 10px 15px;
+            border-radius: 20px;
+            display: inline-block;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+
+        /* Chat Form */
+        .chat-form {
+            display: flex;
+            padding: 30px;
+            border-top: 1px solid #e0e0e0;
+            background: #f9f9f9;
+        }
+
+        .chat-form input {
+            flex: 1;
+            padding: 30px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            margin-right: 10px;
+            outline: none;
+        }
+
+        .chat-form button {
+            background: #007bff;
+            color: #fff;
+            border: none;
+            padding: 20px 30px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .chat-form button:hover {
+            background: #0056b3;
+        }
+
+        .stars {
+        display: flex;
+        flex-direction: row-reverse; /* Reverse the visual order of stars */
+        justify-content: flex-start;
+        }
+
+        .stars input[type="radio"] {
+            display: none; /* Hide the default radio button */
+        }
+
+        .stars label {
+            font-size: 4em;
+            color: #ccc;
+            cursor: pointer;
+            margin: 0;
+        }
+
+        .stars label:hover,
+        .stars label:hover ~ label,
+        .stars input[type="radio"]:checked ~ label {
+            color: #f5c518; /* Highlight color for stars */
+        }
+        /* Modal Styles */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            border-radius: 8px;
+            width: 80%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* feedback */
+
+        #addfeedback {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px; /* Space between elements */
+            margin: 20px auto;
+            max-width: 400px; /* Centered and responsive */
+            font-family: Arial, sans-serif;
+        }
+
+        #addfeedback textarea {
+            width: 100%; /* Full width */
+            height: 100px; /* Increased height */
+            padding: 10px; /* Inner spacing */
+            font-size: 16px; /* Readable font size */
+            border: 1px solid #ccc; /* Subtle border */
+            border-radius: 8px; /* Rounded corners */
+            resize: vertical; /* Allow resizing vertically only */
+
+        }
+
+
+
+        #addfeedback button {
+            width: 100%; /* Full width */
+            padding: 12px 20px; /* Button padding */
+            background-color: rgb(44, 80, 179); /* Blue background */
+            color: white; /* White text */
+            font-size: 16px; /* Readable font size */
+            border: none; /* Remove border */
+            border-radius: 8px; /* Rounded corners */
+            cursor: pointer; /* Pointer cursor on hover */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Slight shadow */
+        }
+
+        #addfeedback button:hover {
+            background-color: rgb(67, 82, 150); /* Darker blue on hover */
+        }
+
+        #addfeedback button:active {
+            background-color:rgb(27, 13, 90); /* Even darker blue on click */
+        }
+
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <header class="chat-header">
+            <img src="static/sitare_logo.png" alt="Company Logo" width="200">
+            <h1>Chatbot SU</h1>
+        </header>
+        <div class="chat-box" id="chat-box">
+            <!-- Render the conversation history -->
+            {% for chat in chat_history %}
+                {% if chat.type == 'user' %}
+                    <div class="user-message">
+                        <p class="message">{{ chat.text }}</p>
+                    </div>
+                {% else %}
+                    <div class="bot-response">
+                        <p class="response">{{ chat.text }}</p>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <form class="chat-form" action="/ask" method="post">
+            <input type="hidden" name="mail_id" value="{{ mail_id }}">
+            <input type="text" name="question" id="question" placeholder="Type your question here..." required>
+            <button type="submit">Send</button>
+        </form>
+
+        <div class="feedback" style="background-image: url('/static/images/{{ cluster | lower }}.jpg'); background-size: cover; background-position: center; padding: 20px; border-radius: 12px;">
+            {% if cluster %}
+                <h2>Your question is related to:</h2>
+                <p> --> <u>{{ cluster }}</u></p>
+                <form action="/feedback" method="post">
+                    <input type="hidden" name="cluster" value="{{ cluster }}">
+                    <label>Does this belong to the correct cluster?</label>
+                    <div>
+                        <label>
+                            <input type="radio" name="feedback" value="yes" required>
+                            👍 <!-- Thumbs Up -->
+                        </label>
+                        <label>
+                            <input type="radio" name="feedback" value="no" required>
+                            👎 <!-- Thumbs Down -->
+                        </label>
+                    </div>
+                </form>
+            {% endif %}
+        
+            {% if answer %}
+                <p>{{ answer }}</p>
+                <h3>Rate the Answer</h3>
+                <form action="/submit_feedback" method="post">
+                    <input type="hidden" name="question" value="{{ chat_history[-1]['text'] if chat_history }}">
+                    <input type="hidden" name="response" value="{{ answer }}">
+                    <div class="stars">
+                        <input type="radio" id="star5" name="rating" value="5" required>
+                        <label for="star5">★</label>
+                        <input type="radio" id="star4" name="rating" value="4">
+                        <label for="star4">★</label>
+                        <input type="radio" id="star3" name="rating" value="3">
+                        <label for="star3">★</label>
+                        <input type="radio" id="star2" name="rating" value="2">
+                        <label for="star2">★</label>
+                        <input type="radio" id="star1" name="rating" value="1">
+                        <label for="star1">★</label>
+                    </div>
+                    <div id="addfeedback">
+                        <textarea name="feedback" placeholder="Optional additional feedback"></textarea>
+                        <button type="submit">Submit Feedback</button>
+                    </div>
+                </form>
+            {% endif %}
+        </div>
+        
+        <!-- Modal for Time Limit Exceeded -->
+        {% if time_limit_exceeded %}
+        <div id="timeLimitModal" class="modal" style="display: block;">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Time Limit Exceeded</h2>
+                <p>You have exceeded the maximum attempts. Please wait {{ wait_time }} minutes before trying again.</p>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Modal for Feedback Acknowledgment -->
+        {% if feedback_message %}
+        <div id="feedbackModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h1>{{ feedback_message }}</h1>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+
+    <!-- Modal for Feedback Acknowledgment -->
+    {% if feedback_message %}
+    <div id="feedbackModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h1>{{ feedback_message }}</h1>
+        </div>
+    </div>
+    {% endif %}
+
+
+    <script>
+        // Scroll to the bottom of the chat box to show the latest message
+        const chatBox = document.getElementById('chat-box');
+        chatBox.scrollTop = chatBox.scrollHeight;
+
+        // Display modal if feedback_message is present
+        const feedbackModal = document.getElementById('feedbackModal');
+        if (feedbackModal) {
+            feedbackModal.style.display = 'block';
+
+            // Close the modal
+            const closeButton = document.querySelector('.close');
+            closeButton.addEventListener('click', () => {
+                feedbackModal.style.display = 'none';
+            });
+
+            // Close modal when clicking outside the content
+            window.addEventListener('click', (event) => {
+                if (event.target === feedbackModal) {
+                    feedbackModal.style.display = 'none';
+                }
+            });
+        }
+
+        // Close the modal when the "X" button is clicked
+    document.querySelectorAll('.close').forEach(button => {
+        button.addEventListener('click', () => {
+            document.getElementById('timeLimitModal').style.display = 'none';
+        });
+    });
+
+    // Close the modal when clicking outside the content
+    window.addEventListener('click', (event) => {
+        const modal = document.getElementById('timeLimitModal');
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    });
+
+
+  
+    </script>
+</body>
+</html>

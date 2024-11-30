@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chatbot Login</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* General Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      color: #fff;
+      position: relative;
+    }
+
+    /* Background Video */
+    .background-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+            }
+
+
+    /* Admin Button and Options */
+    .admin_btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      gap: 30px;
+    }
+
+    .admin_btn button, .admin_btn a {
+      padding: 10px 15px;
+      border: none;
+      border-radius: 5px;
+      background: rgb(113, 67, 185);
+      color: white;
+      font-size: 14px;
+      font-weight: bold;
+      text-decoration: none;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .admin_btn button:hover, .admin_btn a:hover {
+      background:rgb(85, 60, 126);
+      color: orange;
+    }
+
+    /* Login Container */
+    .login-container {
+      background: rgba(233, 226, 226, 0.966); /* Light grey semi-transparent background */
+      color: #333; /* Dark grey text for readability */
+      padding: 30px; /* Maintain spacious layout */
+      border-radius: 15px; /* Smooth rounded corners */
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5); /* Moderate shadow for depth */
+      width: 100%;
+      max-width: 500px;
+      text-align: center;
+      border: 1px solid rgba(200, 200, 200, 0.5); /* Subtle grey border */
+      position: relative;
+      z-index: 1;
+      margin-bottom: 100px;
+}
+
+
+    /* Logo */
+    .logo img {
+      width: 200px;
+      height: auto;
+      margin-bottom: 40px;
+    }
+
+    /* Heading */
+    h2 {
+      font-size: 32px;
+      margin-bottom: 40px;
+    }
+
+    /* Form */
+    .login-form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+      text-align: left;
+    }
+
+    label {
+      font-size: 14px;
+      margin-bottom: 5px;
+      display: block;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: rgb(113, 67, 185);
+      box-shadow: 0 0 5px rgba(37, 117, 252, 0.5);
+    }
+
+    /* Button */
+    .login-button {
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      background: rgb(113, 67, 185);
+      color: #fff;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .login-button:hover {
+      background: rgb(85, 60, 126);
+    }
+
+    /* Signup Link */
+    .signup-text {
+      margin-top: 10px;
+      font-size: 14px;
+    }
+
+    .signup-text a {
+      color: #2575fc;
+      text-decoration: none;
+    }
+
+    .signup-text a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+    <!-- Background Video -->
+    <video class="background-video" autoplay loop muted>
+      <source src="static/203987-923133879.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video> 
+  
+
+  <!-- Admin and Navigation Buttons -->
+  <div class="admin_btn">
+    <button id="passwordButton">Admin</button>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </div>
+
+  <div class="login-container">
+    <div class="logo">
+      <img src="static/sitare_logo.png" alt="Company Logo" width="200">
+    </div>
+    <h2>Welcome to Sitare's Chatbot</h2>
+    <form class="login-form" action="/home" method="post">
+      <div class="form-group">
+        <label for="name"><h3>Name</h3></label>
+        <input type="text" id="name" name="name" placeholder="Enter your Name">
+      </div>
+      <div class="form-group">
+        <label for="email"><h3>Email Address</h3></label>
+        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+      </div>
+      <button type="submit" class="login-button">Login</button>
+      <p class="signup-text">Don't have an account? <a href="#">Sign up</a></p>
+    </form>
+  </div>
+
+  <script>
+    // Admin password prompt
+    document.getElementById('passwordButton').addEventListener('click', function() {
+      const password = prompt("Please enter the password:");
+      if (password === 'info') {
+        window.location.href = '/user_status'; // Correct route for Flask
+      } else {
+        alert("Incorrect password");
+      }
+    });
+  </script>
+</body>
+</html>
