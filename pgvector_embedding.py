@@ -7,6 +7,21 @@ import numpy as np
 # Step 1: Load the dataset
 data = pd.read_csv("updated_chatbot_data.csv", encoding='ISO-8859-1')
 
+#clean_data
+# def clean_text(text):
+#     # Remove special characters and numbers
+#     text = re.sub(r"[^a-zA-Z\s]", "", text)
+#     # Convert text to lowercase
+#     text = text.lower()
+#     # Tokenize and remove stopwords
+#     tokens = word_tokenize(text)
+#     filtered_tokens = [word for word in tokens if word not in stop_words]
+#     return " ".join(filtered_tokens)
+
+# # Apply cleaning to questions and answers
+# data['cleaned_question'] = data['question'].apply(clean_text)
+# data['cleaned_answer'] = data['answer'].apply(clean_text)
+
 # Step 2: Load the embedding model
 model = SentenceTransformer('sentence-transformers/paraphrase-MiniLM-L6-v2')
 
