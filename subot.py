@@ -9,12 +9,12 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 
-# Initialize the Groq client
+#  Groq client
 client = Client(api_key="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")
 
 # Initialize the Flask app
 app = Flask(__name__, static_folder="static")
-app.secret_key = "cf63d8e2ff10bac2c3cb65a96b4f1afe7f6da52f3561993a85ee2a88bc95ca34"  # Replace with a secure random key
+app.secret_key = "cf63d8e2ff10bac2c3cb65a96b4f1afe7f6da52f3561993a85ee2a88bc95ca34"  
 
 # Preload the SentenceTransformer model
 model = SentenceTransformer('paraphrase-MiniLM-L6-v2')
@@ -83,11 +83,11 @@ def ask_question():
         # Generate the query embedding
         query_embedding = np.array(model.encode(user_query), dtype=np.float32)
 
-        # Step 1: Find the nearest cluster
+     
         similarities = np.dot(cluster_centers, query_embedding)  # Cosine similarity approximation
         nearest_cluster = int(np.argmax(similarities))  # Convert numpy.int64 to Python int
 
-        # Step 2: Query only the nearest cluster
+       
         conn = db_connection()
         cur = conn.cursor()
 
@@ -144,7 +144,7 @@ def submit_user_data(mail_id, question_asked, cluster):
     conn = db_connection()
     cursor = conn.cursor()
     
-    # Create the table if it doesn't exist
+   
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS user_data (
             mail_id TEXT,
@@ -176,7 +176,7 @@ def submit_feedback():
     # Save feedback to database
     save_feedback(question, response, rating, feedback)
 
-    # Pass success message back to the index page
+ 
     return render_template("index.html", chat_history=chat_history, feedback_message="Thank you for your feedback!")
 
 
@@ -196,10 +196,10 @@ def save_feedback(question, response, rating, feedback):
 
 @app.route("/user_status")
 def user_status():
-    # Fetch user-specific data if needed
+   
     return render_template('user_status.html')
 
-# Define cluster field mapping
+
 CLUSTER_FIELDS = {
     0: "Security/General Facilities",
     1: "Related to Sitare",
